@@ -1,6 +1,7 @@
 const wrapper = document.querySelector(".wrapper");
 const loginLink = document.querySelector(".login-link");
 const registerLink = document.querySelector(".register-link");
+const loginButton = document.getElementById("login-btn");
 const registerButton = document.getElementById("register-btn");
 const passwordFirst = document.getElementById("password-first");
 const passwordSecond = document.getElementById("password-second");
@@ -16,6 +17,10 @@ loginLink.addEventListener('click', ()=>{
     wrapper.classList.remove('active');
 });
 
+loginButton.addEventListener('click', () => {
+
+});
+
 registerButton.addEventListener('click', () => {
     const passwordFirstValue = passwordFirst.value;
     const passwordSecondValue = passwordSecond.value;
@@ -26,16 +31,13 @@ registerButton.addEventListener('click', () => {
         errorContainer.textContent = "Заполните все поля";
     }
     else if (passwordFirstValue === passwordSecondValue) {
+        const formData = new FormData();
+        formData.append('login', userNameValue);
+        formData.append('email', emailValue);
+        formData.append('password', passwordFirstValue);
         fetch('http://localhost:5285/Home/Register', {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                login: userNameValue,
-                email: emailValue,
-                password: passwordFirstValue
-            })
+            body: formData
         })
             .then(response => {
                 if (response.ok) {
