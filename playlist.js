@@ -10,7 +10,7 @@ function loadSongs() {
             const songList = document.getElementById('song-list');
             data.forEach(song => {
                 const listItem = document.createElement('li');
-                listItem.textContent = song.title;
+                listItem.textContent = song.name;
                 songList.appendChild(listItem);
             });
         })

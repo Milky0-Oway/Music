@@ -11,10 +11,18 @@ function loadPlaylists() {
             data.forEach(playlist => {
                 const listItem = document.createElement('li');
                 const ref = document.createElement('a');
-                ref.textContent = playlist.name;
+                const img = document.createElement('img');
+                const text = document.createElement('p');
+                img.src=playlist.pathToImage;
+                img.alt='playlist image';
+                img.className='playlist-image';
+                ref.appendChild(img);
+                text.textContent = playlist.name;
+                text.className='playlist-name';
+                ref.appendChild(text);
                 ref.href = 'playlist.html?id=' + playlist.id;
                 listItem.appendChild(ref);
-                listItem.className = "playlist";
+                listItem.className = "playlist-ref";
                 playlistList.appendChild(listItem);
             });
         })

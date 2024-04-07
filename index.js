@@ -21,6 +21,7 @@ loginLink.addEventListener('click', ()=>{
 });
 
 loginButton.addEventListener('click', () => {
+    window.location.href='main.html';
     const loginValue = login.value;
     const passwordValue = password.value;
 
@@ -37,8 +38,8 @@ loginButton.addEventListener('click', () => {
             }
         })
         .then(data => {
-            localStorage.setItem('userId', id);
-            localStorage.setItem('token', token);
+            localStorage.setItem('userId', data.userId);
+            localStorage.setItem('token', data.token);
             window.location.href='main.html';
         })
         .catch(error => {

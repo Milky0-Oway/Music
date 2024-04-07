@@ -132,3 +132,70 @@ body{
 .password-error{
     text-align: center;
 }
+
+header{
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+ul{
+    list-style: none;
+    display: flex;
+    width: 100%;
+}
+
+nav a{
+    position: relative;
+    font-size: 1.1em;
+    text-decoration: none;
+    font-weight: 500;
+    margin-left: 40px;
+}
+
+nav a::after{
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 3px;
+    background: yellow;
+    border-radius: 5px;
+    transform-origin: right;
+    transform: scaleX(0);
+    transition: transform .5s;
+}
+
+nav a:hover::after{
+    transform-origin: left;
+    transform: scaleX(1);
+}
+
+.playlist-image{
+    width: 200px;
+    height: 200px;
+}
+
+.playlist-image:hover{
+    outline: yellow 3px;
+}
+
+.playlist-name{
+    font-size: 1em;
+    font-weight: 400;
+}
+
+.playlist-ref{
+    display: block;
+}
+
+.playlist-list{
+    display: grid;
+    grid-template-columns: repeat(4, 20px);
+    grid-template-rows: 20px;
+}
