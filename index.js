@@ -10,6 +10,7 @@ const passwordSecond = document.getElementById("password-second");
 const userName = document.getElementById("username");
 const email = document.getElementById("email");
 const errorContainer = document.getElementById("password-error");
+const loginContainer = document.getElementById("login-error");
 
 registerLink.addEventListener('click', ()=>{
     wrapper.classList.add('active');
@@ -36,14 +37,14 @@ loginButton.addEventListener('click', () => {
     })
         .then(response => {
             if (response.ok) {
-                errorContainer.textContent = "Вход выполнен успешно";
+                loginContainer.textContent = "Вход выполнен успешно";
             } else {
                 throw new Error('Ошибка при входе');
             }
         })
         .catch(error => {
             console.error('Ошибка:', error);
-            errorContainer.textContent = "Произошла ошибка";
+            loginContainer.textContent = "Произошла ошибка";
         });
 });
 
