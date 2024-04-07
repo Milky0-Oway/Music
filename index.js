@@ -24,13 +24,10 @@ loginButton.addEventListener('click', () => {
     const loginValue = login.value;
     const passwordValue = password.value;
 
-    const loginUrl = `http://localhost:5285/Home/Login?$username=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
+    const loginUrl = `http://localhost:5285/Home/Login?login=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
 
     fetch(loginUrl, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        method: 'GET'
     })
         .then(response => {
             if (response.ok) {
