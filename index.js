@@ -31,10 +31,15 @@ loginButton.addEventListener('click', () => {
     })
         .then(response => {
             if (response.ok) {
-                loginContainer.textContent = "Вход выполнен успешно";
+                return response.json();
             } else {
                 throw new Error('Ошибка при входе');
             }
+        })
+        .then(data => {
+            localStorage.setItem('userId', id);
+            localStorage.setItem('token', token);
+            window.location.href='main.html';
         })
         .catch(error => {
             console.error('Ошибка:', error);
