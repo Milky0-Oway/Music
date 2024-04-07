@@ -23,11 +23,8 @@ loginLink.addEventListener('click', ()=>{
 loginButton.addEventListener('click', () => {
     const loginValue = login.value;
     const passwordValue = password.value;
-    const formData = new FormData();
-    formData.append('login', loginValue);
-    formData.append('password', passwordValue);
 
-    const loginUrl = `http://localhost:5285/Home/Login?${new URLSearchParams(formData).toString()}`;
+    const loginUrl = `http://localhost:5285/Home/Login?$username=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
 
     fetch(loginUrl, {
         method: 'GET',
