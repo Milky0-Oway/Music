@@ -26,7 +26,28 @@ registerButton.addEventListener('click', () => {
         errorContainer.textContent = "Заполните все поля";
     }
     else if (passwordFirstValue === passwordSecondValue) {
-        errorContainer.textContent = "Регистрация прошла успешно";
+        fetch('http://localhost:5285/Home/Register', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                login: userNameValue,
+                email: emailValue,
+                password: passwordFirstValue
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    errorContainer.textContent = "Регистрация прошла успешно";
+                } else {
+                    errorContainer.textContent = "Ошибка при регистрации";
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+                errorContainer.textContent = "Произошла ошибка";
+            });
     }
     else {
         errorContainer.textContent = "Пароли не совпадают";
