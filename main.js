@@ -1,19 +1,28 @@
 const id = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
 
-function loadPlaylists() {
-    fetch('http://localhost:5285/Library/GetPlaylistsByUser?id=' + id, {
+async function loadPlaylists() {
+    await fetch('http://192.168.1.106:5285/Library/GetPlaylistsByUser?id=' + id, {
         method: 'GET'
     })
         .then(response => response.json())
-        .then(data => {
+        .then(async data => {
             const playlistList = document.getElementById('playlist-list');
-            data.forEach(playlist => {
+            for (const playlist of data) {
                 const listItem = document.createElement('li');
                 const ref = document.createElement('a');
                 const img = document.createElement('img');
                 const text = document.createElement('p');
-                img.src=playlist.pathToImage;
+                await fetch('http://192.168.1.106:5285/Library/GetImage?PathToImage=' + playlist.pathToImage, {
+                    method: 'GET'
+                })
+                    .then(async response => {
+                        const blob = await response.blob();
+                        img.src = URL.createObjectURL(await blob);
+                    })
+                    .catch(error => {
+                        console.error('Ошибка при загрузке плейлистов:', error);
+                    });
                 img.alt='playlist image';
                 img.className='playlist-image';
                 ref.appendChild(img);
@@ -24,7 +33,7 @@ function loadPlaylists() {
                 listItem.appendChild(ref);
                 listItem.className = "playlist-ref";
                 playlistList.appendChild(listItem);
-            });
+            }
         })
         .catch(error => {
             console.error('Ошибка при загрузке плейлистов:', error);

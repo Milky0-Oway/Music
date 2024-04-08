@@ -8,6 +8,8 @@ body{
 }
 
 .wrapper{
+    margin-left: 40%;
+    margin-top: 7%;
     position: relative;
     width: 400px;
     height: 440px;
@@ -143,7 +145,7 @@ header{
     align-items: center;
 }
 
-ul{
+.main-nav{
     list-style: none;
     display: flex;
     width: 100%;
@@ -182,20 +184,47 @@ nav a:hover::after{
 }
 
 .playlist-image:hover{
-    outline: yellow 3px;
+    outline: yellow solid 3px;
 }
 
 .playlist-name{
-    font-size: 1em;
+    font-size: 1.2em;
     font-weight: 400;
 }
 
-.playlist-ref{
+.playlist-ref a{
     display: block;
+    text-decoration: none;
 }
 
-.playlist-list{
+#playlist-list{
+    list-style: none;
     display: grid;
     grid-template-columns: repeat(4, 20px);
     grid-template-rows: 20px;
+}
+
+#song-list{
+    list-style: none;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+#song-list li{
+    margin-top: 10px;
+}
+
+.song-button{
+    border: none;
+    font-size: 1em;
+    background: transparent;
+}
+
+#audioPlayer{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    z-index: 999;
 }

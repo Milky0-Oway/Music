@@ -9,6 +9,7 @@
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/playlist.html" beforeDir="false" afterPath="$PROJECT_DIR$/playlist.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/playlist.js" beforeDir="false" afterPath="$PROJECT_DIR$/playlist.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
@@ -61,7 +62,9 @@
       <updated>1712485382302</updated>
       <workItem from="1712485383403" duration="3751000" />
       <workItem from="1712489189062" duration="7792000" />
-      <workItem from="1712517832005" duration="7319000" />
+      <workItem from="1712517832005" duration="7610000" />
+      <workItem from="1712563480147" duration="576000" />
+      <workItem from="1712589724665" duration="6303000" />
     </task>
     <servers />
   </component>

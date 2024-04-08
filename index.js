@@ -25,7 +25,7 @@ loginButton.addEventListener('click', () => {
     const loginValue = login.value;
     const passwordValue = password.value;
 
-    const loginUrl = `http://localhost:5285/Home/Login?login=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
+    const loginUrl = `http://192.168.1.106:5285/Home/Login?login=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
 
     fetch(loginUrl, {
         method: 'GET'
@@ -62,7 +62,7 @@ registerButton.addEventListener('click', () => {
         formData.append('login', userNameValue);
         formData.append('email', emailValue);
         formData.append('password', passwordFirstValue);
-        fetch('http://localhost:5285/Home/Register', {
+        fetch('http://192.168.1.106:5285/Home/Register', {
             method: 'PUT',
             body: formData
         })
