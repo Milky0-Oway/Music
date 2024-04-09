@@ -8,6 +8,22 @@ async function loadPlaylists() {
         .then(response => response.json())
         .then(async data => {
             const playlistList = document.getElementById('playlist-list');
+            const listItem = document.createElement('li');
+            const ref = document.createElement('a');
+            const img = document.createElement('img');
+            const text = document.createElement('p');
+            img.src="heart.jpg";
+            img.alt='playlist image';
+            img.className='playlist-image';
+            ref.appendChild(img);
+            text.textContent = "Любимое";
+            text.className='playlist-name';
+            ref.appendChild(text);
+            ref.href = 'playlist.html?id=' + 0;
+            listItem.appendChild(ref);
+            listItem.className = "playlist-ref";
+            playlistList.appendChild(listItem);
+
             for (const playlist of data) {
                 const listItem = document.createElement('li');
                 const ref = document.createElement('a');

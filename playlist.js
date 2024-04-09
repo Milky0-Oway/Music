@@ -1,26 +1,50 @@
 const urlParams = new URLSearchParams(window.location.search);
 const playlistId = urlParams.get('id');
+const id = localStorage.getItem('userId');
 
 async function loadSongs() {
-    await fetch('http://192.168.1.106:5285/Library/GetSongsByPlaylist?id=' + playlistId, {
-        method: 'GET'
-    })
-        .then(response => response.json())
-        .then(data => {
-            const songList = document.getElementById('song-list');
-            data.forEach(song => {
-                const listItem = document.createElement('li');
-                const songButton = document.createElement('button');
-                songButton.textContent = song.name;
-                songButton.onclick = () =>playSong(song.pathToSong);
-                songButton.className="song-button";
-                listItem.appendChild(songButton);
-                songList.appendChild(listItem);
-            });
+    if(playlistId === "0"){
+        await fetch('http://192.168.1.106:5285/Library/GetFavouriteSongs?id=' + id, {
+            method: 'GET'
         })
-        .catch(error => {
-            console.error('Ошибка при загрузке песен:', error);
-        });
+            .then(response => response.json())
+            .then(data => {
+                const songList = document.getElementById('song-list');
+                data.forEach(song => {
+                    const listItem = document.createElement('li');
+                    const songButton = document.createElement('button');
+                    songButton.textContent = song.name;
+                    songButton.onclick = () => playSong(song.pathToSong);
+                    songButton.className = "song-button";
+                    listItem.appendChild(songButton);
+                    songList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке песен:', error);
+            });
+    }
+    else {
+        await fetch('http://192.168.1.106:5285/Library/GetSongsByPlaylist?id=' + playlistId, {
+            method: 'GET'
+        })
+            .then(response => response.json())
+            .then(data => {
+                const songList = document.getElementById('song-list');
+                data.forEach(song => {
+                    const listItem = document.createElement('li');
+                    const songButton = document.createElement('button');
+                    songButton.textContent = song.name;
+                    songButton.onclick = () => playSong(song.pathToSong);
+                    songButton.className = "song-button";
+                    listItem.appendChild(songButton);
+                    songList.appendChild(listItem);
+                });
+            })
+            .catch(error => {
+                console.error('Ошибка при загрузке песен:', error);
+            });
+    }
 }
 
 async function playSong(name){
