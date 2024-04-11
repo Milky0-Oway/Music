@@ -12,6 +12,9 @@ const email = document.getElementById("email");
 const errorContainer = document.getElementById("password-error");
 const loginContainer = document.getElementById("login-error");
 
+localStorage.setItem('ip', '192.168.1.103');
+const ip = localStorage.getItem('ip');
+
 registerLink.addEventListener('click', ()=>{
     wrapper.classList.add('active');
 });
@@ -25,7 +28,7 @@ loginButton.addEventListener('click', () => {
     const loginValue = login.value;
     const passwordValue = password.value;
 
-    const loginUrl = `http://192.168.1.106:5285/Home/Login?login=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
+    const loginUrl = `http://${ip}:5285/Home/Login?login=${encodeURIComponent(loginValue)}&password=${encodeURIComponent(passwordValue)}`;
 
     fetch(loginUrl, {
         method: 'GET'
@@ -62,7 +65,7 @@ registerButton.addEventListener('click', () => {
         formData.append('login', userNameValue);
         formData.append('email', emailValue);
         formData.append('password', passwordFirstValue);
-        fetch('http://192.168.1.106:5285/Home/Register', {
+        fetch('http://'+ ip +':5285/Home/Register', {
             method: 'PUT',
             body: formData
         })

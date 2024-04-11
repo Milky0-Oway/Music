@@ -18,10 +18,38 @@
         </nav>
     </header>
     <main>
-        <h1>Плейлисты</h1>
-        <ul id="playlist-list">
-        <script src="main.js"></script>
-        </ul>
+        <audio id="audioPlayer" controls></audio>
+        <div class="base">
+            <div id="playlists">
+                <h1>Плейлисты</h1>
+                <ul id="playlist-list">
+                <script src="main.js"></script>
+                </ul>
+            </div>
+            <div id="new-playlist">
+                <div class="head">
+                    <div class="head-item">
+                        <img src="plus.png" alt="add-playlist">
+                    </div>
+                    <div class="head-item">
+                        <h4>плейлист</h4>
+                        <h2>Новый плейлист</h2>
+                    </div>
+                    <div class="head-item">
+                        <button onclick="createPlaylist()">Создать</button>
+                    </div>
+                </div>
+                <div class="search">
+
+                </div>
+            </div>
+        </div>
+        <div class="songs">
+            <h1>Список песен</h1>
+            <ul id="song-list">
+                <script src="playlist.js"></script>
+            </ul>
+        </div>
     </main>
 </body>
 </html>
