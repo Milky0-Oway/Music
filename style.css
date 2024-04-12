@@ -232,11 +232,11 @@ nav a:hover::after{
 }
 
 #playlists{
-    display: none;
+    /*display: none;*/
 }
 
 #new-playlist{
-    /*display: none;*/
+    display: none;
 }
 
 .head{
@@ -283,7 +283,7 @@ main{
     display: flex;
 }
 
-.songs{
+#songs{
     width: 500px;
     margin-right: 0;
 }

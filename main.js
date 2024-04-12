@@ -58,7 +58,7 @@ async function loadPlaylists() {
                 text.textContent = playlist.name;
                 text.className='playlist-name';
                 ref.appendChild(text);
-                ref.onclick = () => loadSongs(playlist.id);
+                ref.onclick = () => loadSongs(playlist.id, playlist.name);
                 listItem.appendChild(ref);
                 listItem.className = "playlist-ref";
                 playlistList.appendChild(listItem);
@@ -74,13 +74,21 @@ function createPlaylist(){
     document.getElementById("playlists").style.display = "inline";
 }
 
-async function loadSongs(playlistId) {
+async function loadSongs(playlistId, name) {
+    let songList = document.getElementById("song-list");
+    let songs = songList.querySelectorAll('li');
+    for(let i = 0; i < songs.length; i++){
+        songs[i].remove();
+    }
+
+    const playlistName = document.getElementById("playlist-name");
+    playlistName.textContent = name;
+
     await fetch('http://'+ ip +':5285/Library/GetSongsByPlaylist?id=' + playlistId, {
         method: 'GET'
     })
         .then(response => response.json())
         .then(data => {
-            const songList = document.getElementById('song-list');
             data.forEach(song => {
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
@@ -97,12 +105,20 @@ async function loadSongs(playlistId) {
 }
 
 async function loadFavouriteSongs(){
+    let songList = document.getElementById("song-list");
+    let songs = songList.querySelectorAll('li');
+    for(let i = 0; i < songs.length; i++){
+        songs[i].remove();
+    }
+
+    const playlistName = document.getElementById("playlist-name");
+    playlistName.textContent = "Любимое";
+
     await fetch('http://'+ ip +':5285/Library/GetFavouriteSongs?id=' + id, {
         method: 'GET'
     })
         .then(response => response.json())
         .then(data => {
-            const songList = document.getElementById('song-list');
             data.forEach(song => {
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
