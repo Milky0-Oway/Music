@@ -2,6 +2,17 @@ const id = localStorage.getItem('userId');
 const token = localStorage.getItem('token');
 const ip = localStorage.getItem('ip');
 
+const audioPlayer = document.getElementById("audioPlayer");
+const playButton = document.getElementById("playButton");
+const pauseButton = document.getElementById("pauseButton");
+const progressBar = document.getElementById("progressBar");
+const progressBarContainer = document.getElementById("progressBarContainer");
+const playForwardButton = document.getElementById("playForwardButton");
+const playBackButton = document.getElementById("playBackButton");
+
+let songNames = [];
+let sondId = -1;
+
 async function loadPlaylists() {
     await fetch('http://'+ ip +':5285/Library/GetPlaylistsByUser?id=' + id, {
         method: 'GET'
@@ -84,6 +95,8 @@ async function loadSongs(playlistId, name) {
     const playlistName = document.getElementById("playlist-name");
     playlistName.textContent = name;
 
+    songNames = [];
+
     await fetch('http://'+ ip +':5285/Library/GetSongsByPlaylist?id=' + playlistId, {
         method: 'GET'
     })
@@ -93,8 +106,9 @@ async function loadSongs(playlistId, name) {
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
                 songButton.textContent = song.name;
-                songButton.onclick = () => playSong(song.pathToSong);
+                songButton.onclick = () => playSong(song.pathToSong, song.id-1);
                 songButton.className = "song-button";
+                songNames.push(song.pathToSong);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
             });
@@ -114,6 +128,8 @@ async function loadFavouriteSongs(){
     const playlistName = document.getElementById("playlist-name");
     playlistName.textContent = "Любимое";
 
+    songNames = [];
+
     await fetch('http://'+ ip +':5285/Library/GetFavouriteSongs?id=' + id, {
         method: 'GET'
     })
@@ -123,8 +139,9 @@ async function loadFavouriteSongs(){
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
                 songButton.textContent = song.name;
-                songButton.onclick = () => playSong(song.pathToSong);
+                songButton.onclick = () => playSong(song.pathToSong, song.id-1);
                 songButton.className = "song-button";
+                songNames.push(song.pathToSong);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
             });
@@ -139,7 +156,8 @@ function loadBase(){
     document.getElementById("playlists").style.display = "none";
 }
 
-async function playSong(name){
+async function playSong(name, id){
+    sondId = id;
     try {
         const response = await fetch('http://'+ ip +':5285/Library/GetAudio?PathToSong=' + name);
         const blob = await response.blob();
@@ -148,9 +166,50 @@ async function playSong(name){
         const audioPlayer = document.getElementById('audioPlayer');
         audioPlayer.src = audioURL;
         audioPlayer.play();
+        playButton.style.display = "none";
+        pauseButton.style.display = "inline";
     } catch (error) {
         console.error('Ошибка при воспроизведении аудио:', error);
     }
 }
+
+playButton.addEventListener("click", function() {
+    audioPlayer.play();
+    playButton.style.display = "none";
+    pauseButton.style.display = "inline";
+});
+
+pauseButton.addEventListener("click", function() {
+    audioPlayer.pause();
+    pauseButton.style.display = "none";
+    playButton.style.display = "inline";
+});
+
+audioPlayer.addEventListener("timeupdate", function() {
+    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.style.width = progress + "%";
+});
+
+progressBarContainer.addEventListener("click", function(event) {
+    const boundingRect = progressBarContainer.getBoundingClientRect();
+    const offsetX = event.clientX - boundingRect.left;
+    const percent = offsetX / boundingRect.width;
+    const newTime = percent * audioPlayer.duration;
+    audioPlayer.currentTime = newTime;
+});
+
+audioPlayer.addEventListener("timeupdate", function() {
+    const progress = (audioPlayer.currentTime / audioPlayer.duration) * 100;
+    progressBar.style.width = progress + "%";
+});
+
+//рассмотреть проблему разных плейлистов
+playForwardButton.addEventListener("click", function(event){
+    playSong(songNames[(sondId + 1) % songNames.length], (sondId + 1) % songNames.length);
+});
+
+playBackButton.addEventListener("click", function(event){
+    playSong(songNames[(sondId - 1 + songNames.length) % songNames.length], (sondId - 1 + songNames.length) % songNames.length);
+});
 
 window.onload = loadPlaylists;
