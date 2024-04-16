@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f4875747-1ccc-40e6-957e-4d7f32e62ad0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
@@ -71,7 +72,8 @@
       <workItem from="1712822817315" duration="32000" />
       <workItem from="1712860602776" duration="7822000" />
       <workItem from="1712951924871" duration="1831000" />
-      <workItem from="1713033320175" duration="7082000" />
+      <workItem from="1713033320175" duration="7954000" />
+      <workItem from="1713297386578" duration="4443000" />
     </task>
     <servers />
   </component>
@@ -83,15 +85,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/main.js</url>
-          <line>163</line>
-          <properties lambdaOrdinal="-1" />
+          <line>204</line>
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/main.js</url>
-          <line>104</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

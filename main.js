@@ -9,6 +9,7 @@ const progressBar = document.getElementById("progressBar");
 const progressBarContainer = document.getElementById("progressBarContainer");
 const playForwardButton = document.getElementById("playForwardButton");
 const playBackButton = document.getElementById("playBackButton");
+const playlistName = document.getElementById("playlistname");
 
 let songNames = [];
 let sondId = -1;
@@ -81,6 +82,50 @@ async function loadPlaylists() {
 }
 
 function createPlaylist(){
+    const name = playlistName.value;
+    const formData = new FormData();
+    formData.append('userId', id);
+    formData.append('name', name);
+    fetch('http://'+ ip +':5285/Library/AddPlaylist', {
+        method: 'PUT',
+        body: formData
+    })
+        .then(response => response.json())
+        .then(data => {
+            const playlistList = document.getElementById('playlist-list');
+            const listItem = document.createElement('li');
+            const ref = document.createElement('button');
+            const img = document.createElement('img');
+            const text = document.createElement('p');
+            fetch('http://'+ ip +':5285/Library/GetImage?PathToImage=' + data.pathToImage, {
+                method: 'GET'
+            })
+                .then(async response => {
+                    const blob = await response.blob();
+                    img.src = URL.createObjectURL(await blob);
+                })
+                .catch(error => {
+                    console.error('Ошибка при загрузке плейлистов:', error);
+                });
+            img.alt='playlist image';
+            img.className='playlist-image';
+            ref.appendChild(img);
+            text.textContent = data.name;
+            text.className='playlist-name';
+            ref.appendChild(text);
+            ref.onclick = () => loadSongs(data.id, data.name);
+            listItem.appendChild(ref);
+            listItem.className = "playlist-ref";
+            playlistList.appendChild(listItem);
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+            errorContainer.textContent = "Произошла ошибка";
+        });
+    cancelPlaylist();
+}
+
+function cancelPlaylist(){
     document.getElementById("new-playlist").style.display = "none";
     document.getElementById("playlists").style.display = "inline";
 }

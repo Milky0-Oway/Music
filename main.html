@@ -11,6 +11,7 @@
     <header>
         <nav>
             <ul class="main-nav">
+                <img src="logo.png" style="width: 100px; height: 100px"/>
                 <li><a href="main.html">Главная</a></li>
                 <li><a href="#">Профиль</a></li>
                 <li><a href="#">О создателях</a></li>
@@ -34,7 +35,6 @@
             <div id="playlists">
                 <h1>Плейлисты</h1>
                 <ul id="playlist-list">
-                <script src="main.js"></script>
                 </ul>
             </div>
             <div id="new-playlist">
@@ -44,10 +44,11 @@
                     </div>
                     <div class="head-item">
                         <h4>плейлист</h4>
-                        <h2>Новый плейлист</h2>
-                    </div>
-                    <div class="head-item">
-                        <button onclick="createPlaylist()">Создать</button>
+                        <input type="text" id="playlistname" value="Новый плейлист"/>
+                        <div id="buttons">
+                            <button onclick="cancelPlaylist()">Отмена</button>
+                            <button onclick="createPlaylist()">Создать</button>
+                        </div>
                     </div>
                 </div>
                 <div class="search">
@@ -62,6 +63,7 @@
             </ul>
         </div>
     </main>
+    <script src="main.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
