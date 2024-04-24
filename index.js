@@ -12,7 +12,7 @@ const email = document.getElementById("email");
 const errorContainer = document.getElementById("password-error");
 const loginContainer = document.getElementById("login-error");
 
-localStorage.setItem('ip', '192.168.1.104');
+localStorage.setItem('ip', '192.168.1.103');
 const ip = localStorage.getItem('ip');
 
 registerLink.addEventListener('click', ()=>{

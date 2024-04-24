@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Загрузка музыки и создание альбома</title>
+</head>
+<body>
+<h2>Загрузить музыку</h2>
+<form id="uploadForm" enctype="multipart/form-data">
+    <input type="file" id="musicFile" name="musicFile" accept=".mp3,.wav,.ogg" required>
+    <br>
+    <label for="authorName">Имя автора:</label>
+    <input type="text" id="authorName" name="authorName" required>
+    <br>
+    <label for="albumName">Название альбома:</label>
+    <input type="text" id="albumName" name="albumName" required>
+    <br>
+    <label for="songTitle">Название песни:</label>
+    <input type="text" id="songTitle" name="songTitle" required>
+    <br>
+    <input type="submit" value="Загрузить">
+</form>
+
+<h2>Создать альбом</h2>
+<form id="createAlbumForm">
+    <label for="albumTitle">Название альбома:</label>
+    <input type="text" id="albumTitle" name="albumTitle" required>
+    <br>
+    <label for="albumGenre">Жанр альбома:</label>
+    <input type="text" id="albumGenre" name="albumGenre" required>
+    <br>
+    <label for="albumAuthor">Автор альбома:</label>
+    <input type="text" id="albumAuthor" name="albumAuthor" required>
+    <br>
+    <input type="submit" value="Создать альбом">
+</form>
+
+<script>
+    const ip = localStorage.getItem('ip');
+
+    // Обработчик для формы загрузки музыки
+    document.getElementById('uploadForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(document.getElementById('uploadForm'));
+
+        const uploadUrl = `http://${ip}:5285/Library/UploadMusic`;
+
+        fetch(uploadUrl, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Ошибка при загрузке музыки');
+                }
+            })
+            .then(data => {
+                console.log('Музыка успешно загружена:', data);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+    });
+
+    // Обработчик для формы создания альбома
+    document.getElementById('createAlbumForm').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const albumTitle = document.getElementById('albumTitle').value;
+        const albumGenre = document.getElementById('albumGenre').value;
+        const albumAuthor = document.getElementById('albumAuthor').value;
+
+        const createAlbumUrl = `http://${ip}:5285/Library/CreateAlbum?title=${albumTitle}&genre=${albumGenre}&author=${albumAuthor}`;
+
+        fetch(createAlbumUrl, {
+            method: 'POST',
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Ошибка при создании альбома');
+                }
+            })
+            .then(data => {
+                console.log('Альбом успешно создан:', data);
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+    });
+</script>
+</body>
+</html>
