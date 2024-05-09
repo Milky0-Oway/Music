@@ -155,15 +155,17 @@ header{
     margin-top: 40px;
 }
 
-nav a{
+nav button{
     position: relative;
     font-size: 1.1em;
     text-decoration: none;
     font-weight: 500;
     margin-left: 40px;
+    background: none;
+    border: none;
 }
 
-nav a::after{
+nav button::after{
     content: '';
     position: absolute;
     left: 0;
@@ -177,7 +179,7 @@ nav a::after{
     transition: transform .5s;
 }
 
-nav a:hover::after{
+nav button:hover::after{
     transform-origin: left;
     transform: scaleX(1);
 }
@@ -266,13 +268,13 @@ nav a:hover::after{
     margin-top: -20px;
 }
 
-.search{
+/*.search{
     margin-top: 20px;
     outline: yellow solid 3px;
     height: 25px;
     width: 60%;
     margin-left: 15px;
-}
+}*/
 
 .head-item button{
     margin-top: 160px;
@@ -347,4 +349,33 @@ main{
 
 #buttons{
     margin-top: -50px;
+}
+
+#searchResults div{
+    display: flex;
+}
+
+select{
+    font-size: 16px;
+    background: #262624;
+    border: none;
+    outline: none;
+}
+
+option{
+    background: #262624;
+    font-size: 16px;
+    border: none;
+    outline: none;
+}
+
+#search button{
+    border: none;
+    outline: none;
+    background: none;
+}
+
+#search input{
+    background: #262624;
+    border: yellow 1px solid;
 }

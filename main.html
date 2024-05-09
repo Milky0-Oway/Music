@@ -12,9 +12,9 @@
         <nav>
             <ul class="main-nav">
                 <img src="logo.png" style="width: 100px; height: 100px"/>
-                <li><a href="main.html">Главная</a></li>
-                <li><a href="#">Профиль</a></li>
-                <li><a href="#">О создателях</a></li>
+                <li><button onclick="cancelPlaylist()">Главная</button></li>
+                <li><button>Профиль</button></li>
+                <li><button id="search-button">Поиск</button></li>
             </ul>
         </nav>
     </header>
@@ -51,7 +51,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="search">
+            </div>
+            <div id="search" style="display:none">
+                <h2>Поиск музыки</h2>
+                <input type="text" id="searchInput" placeholder="Введите название песни">
+                <button onclick="searchMusic()">Поиск</button>
+                <div id="searchResults">
 
                 </div>
             </div>

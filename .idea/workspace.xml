@@ -6,7 +6,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f4875747-1ccc-40e6-957e-4d7f32e62ad0" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addsong.html" beforeDir="false" afterPath="$PROJECT_DIR$/addsong.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/main.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/style.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +42,7 @@
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/milka/Downloads/template.html&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Study/EPIC/ITFD/FirstPortfolio&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -76,7 +80,13 @@
       <workItem from="1713297386578" duration="4792000" />
       <workItem from="1713460119035" duration="11181000" />
       <workItem from="1713627142115" duration="4810000" />
-      <workItem from="1713963791437" duration="1396000" />
+      <workItem from="1713963791437" duration="2223000" />
+      <workItem from="1713968148072" duration="238000" />
+      <workItem from="1714068946804" duration="4572000" />
+      <workItem from="1714200109455" duration="70000" />
+      <workItem from="1714480610428" duration="1727000" />
+      <workItem from="1714677088040" duration="850000" />
+      <workItem from="1715254162781" duration="8986000" />
     </task>
     <servers />
   </component>
@@ -88,7 +98,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/main.js</url>
-          <line>204</line>
+          <line>217</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

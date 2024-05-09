@@ -10,9 +10,12 @@ const progressBarContainer = document.getElementById("progressBarContainer");
 const playForwardButton = document.getElementById("playForwardButton");
 const playBackButton = document.getElementById("playBackButton");
 const playlistName = document.getElementById("playlistname");
+const searchButton = document.getElementById("search-button");
 
 let songNames = [];
 let sondId = -1;
+let playlists = new Map();
+let keys = [];
 
 async function loadPlaylists() {
     await fetch('http://'+ ip +':5285/Library/GetPlaylistsByUser?id=' + id, {
@@ -74,6 +77,8 @@ async function loadPlaylists() {
                 listItem.appendChild(ref);
                 listItem.className = "playlist-ref";
                 playlistList.appendChild(listItem);
+                playlists.set(playlist.id, playlist.name);
+                keys.push(playlist.id);
             }
         })
         .catch(error => {
@@ -128,6 +133,7 @@ function createPlaylist(){
 function cancelPlaylist(){
     document.getElementById("new-playlist").style.display = "none";
     document.getElementById("playlists").style.display = "inline";
+    document.getElementById("search").style.display = "none";
 }
 
 async function loadSongs(playlistId, name) {
@@ -199,7 +205,14 @@ async function loadFavouriteSongs(){
 function loadBase(){
     document.getElementById("new-playlist").style.display = "inline";
     document.getElementById("playlists").style.display = "none";
+    document.getElementById("search").style.display = "none";
 }
+
+searchButton.addEventListener("click", () => {
+    document.getElementById("search").style.display = "inline";
+    document.getElementById("playlists").style.display = "none";
+    document.getElementById("new-playlist").style.display = "none";
+});
 
 async function playSong(name, id){
     sondId = id;
@@ -256,5 +269,79 @@ playForwardButton.addEventListener("click", function(event){
 playBackButton.addEventListener("click", function(event){
     playSong(songNames[(sondId - 1 + songNames.length) % songNames.length], (sondId - 1 + songNames.length) % songNames.length);
 });
+
+function searchMusic() {
+    const searchInput = document.getElementById("searchInput").value;
+    const searchResults = document.getElementById("searchResults");
+
+    searchResults.innerHTML = "";
+
+    fetch(`http://${ip}:5285/Library/FindSongByName?name=${encodeURIComponent(searchInput)}`, {
+        method: 'GET'
+    })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw new Error('Ошибка при поиске музыки');
+            }
+        })
+        .then(data => {
+            data.data.forEach(song => {
+                const resultItem = document.createElement('div');
+                resultItem.innerHTML = `
+                <p>${song.name}</p>
+                <button onclick="addToPlaylist(${song.id}, this.parentNode)">+</button>
+            `;
+                searchResults.appendChild(resultItem);
+            });
+        })
+        .catch(error => {
+            console.error('Ошибка:', error);
+        });
+}
+
+function addToPlaylist(songId, song) {
+    const select = document.createElement('select');
+    const item0 = document.createElement('option');
+    item0.text = "Выберите плейлист";
+    select.appendChild(item0);
+    for (let [key, value] of playlists) {
+        const item = document.createElement('option');
+        item.text = value;
+        select.appendChild(item);
+    }
+
+    select.addEventListener('change', function() {
+        const selectedOption = this.selectedIndex;
+        hideDropdown();
+        const formData = new FormData();
+        console.log(keys[selectedOption]);
+        formData.append('playlistId', keys[selectedOption]);
+        formData.append('songId', songId);
+        fetch('http://'+ ip +':5285/Library/AddSongToPlaylist', {
+            method: 'PUT',
+            body: formData
+        })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Ошибка при поиске музыки');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+    });
+
+
+    song.appendChild(select);
+}
+
+function hideDropdown() {
+    const select = document.querySelector('select');
+    select.remove();
+}
 
 window.onload = loadPlaylists;
