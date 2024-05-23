@@ -207,7 +207,7 @@ nav button:hover::after{
 #playlist-list{
     list-style: none;
     display: grid;
-    grid-template-columns: repeat(4, 15%);
+    grid-template-columns: repeat(6, 220px);
     grid-template-rows: 250px;
 }
 
@@ -341,10 +341,17 @@ main{
     display: none;
 }
 
-.audio-buttons{
+#audio-buttons{
     margin-top: 5px;
-    margin-bottom: 5px;
     margin-left: 50px;
+    display: flex;
+    align-items: flex-start;
+}
+
+#audio-buttons span{
+    margin-left: 20px;
+    display: block;
+    margin-top: 3px;
 }
 
 #buttons{
@@ -378,4 +385,52 @@ option{
 #search input{
     background: #262624;
     border: yellow 1px solid;
+}
+
+#song-name{
+    display: block;
+}
+
+#upload-music{
+    align-items: center;
+}
+
+#uploadBtn{
+    font-size: 1.3em;
+    outline: none;
+    background: transparent;
+    border: none;
+    font-weight: 600;
+    align-items: center;
+    margin-left: 50px;
+    cursor: pointer;
+}
+
+#uploadForm input{
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    font-weight: 600;
+}
+
+#uploadForm label{
+    font-size: 1.2em;
+}
+
+#file-upload-button{
+    background: transparent;
+    border: none;
+    outline: none;
+}
+
+.add-to-playlist-button {
+    /* Пример стилей */
+    margin-left: 10px;
+    margin-top: -3px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
 }

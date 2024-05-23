@@ -13,7 +13,7 @@
             <ul class="main-nav">
                 <img src="logo.png" style="width: 100px; height: 100px"/>
                 <li><button onclick="cancelPlaylist()">Главная</button></li>
-                <li><button>Профиль</button></li>
+                <li><button id="upload-music-button">Загрузить музыку</button></li>
                 <li><button id="search-button">Поиск</button></li>
             </ul>
         </nav>
@@ -24,11 +24,14 @@
             <div id="progressBarContainer">
                 <div id="progressBar"></div>
             </div>
-            <div class="audio-buttons">
+            <div id="audio-buttons">
                 <button id="playBackButton"><ion-icon name="play-back"></ion-icon></button>
                 <button id="playButton"><ion-icon name="play"></ion-icon></button>
                 <button id="pauseButton"><ion-icon name="pause"></ion-icon></button>
                 <button id="playForwardButton"><ion-icon name="play-forward"></ion-icon></button>
+                <button id="favouriteButton"><ion-icon name="heart-outline"></ion-icon></button>
+                <span id="song-author" style="font-weight: 300"></span>
+                <span id="song-name"></span>
             </div>
         </div>
         <div class="base">
@@ -59,6 +62,17 @@
                 <div id="searchResults">
 
                 </div>
+            </div>
+            <div id="upload-music" style="display:none">
+                <h2>Загрузить музыку</h2>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" id="musicFile" name="musicFile" accept=".mp3,.wav,.ogg" required>
+                    <br>
+                    <label for="songTitle">Название песни:</label>
+                    <input type="text" id="songTitle" name="songTitle" required value="Название">
+                    <br>
+                    <button id="uploadBtn" type="submit">Загрузить</button>
+                </form>
             </div>
         </div>
         <div id="songs">
