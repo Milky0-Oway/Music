@@ -5,7 +5,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f4875747-1ccc-40e6-957e-4d7f32e62ad0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -23,6 +22,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="2eli5cAQEiKZ2CL3gD49dvcSd6X" />
   <component name="ProjectLevelVcsManager">
@@ -86,7 +88,7 @@
       <workItem from="1715457296870" duration="318000" />
       <workItem from="1716468165483" duration="16415000" />
       <workItem from="1716535719518" duration="592000" />
-      <workItem from="1716546813447" duration="571000" />
+      <workItem from="1716546813447" duration="819000" />
     </task>
     <servers />
   </component>

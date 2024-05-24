@@ -172,10 +172,10 @@ async function loadSongs(playlistId, name) {
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
                 songButton.textContent = song.authors + ' - ' + song.song.name;
-                songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1, song.song.name, song.authors);
+                songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1);
                 songButton.className = "song-button";
                 songNames.push(song.song.pathToSong);
-                playlist.push(song.song);
+                playlist.push(song);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
             });
@@ -208,11 +208,11 @@ async function loadFavouriteSongs(){
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
                 songButton.textContent = song.authors + ' - ' + song.song.name;
-                songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1, song.song.name, song.authors);
+                songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1);
                 songButton.className = "song-button";
                 songNames.push(song.song.pathToSong);
                 favouriteSongs.push(song.song);
-                playlist.push(song.song);
+                playlist.push(song);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
             });
@@ -270,11 +270,11 @@ document.getElementById('uploadForm').addEventListener('submit', (event) => {
         });
 });
 
-async function playSong(path, id, name, author){
+async function playSong(path, id){
     sondId = id;
     let song;
     for(let i = 0; i < playlist.length; i++){
-        if(playlist[i].id === id){
+        if(playlist[i].song.id === id+1){
             song = playlist[i];
             break;
         }
@@ -289,10 +289,8 @@ async function playSong(path, id, name, author){
         const audioPlayer = document.getElementById('audioPlayer');
         audioPlayer.src = audioURL;
         audioPlayer.play();
-        songName.textContent = song.name;
-        console.log(name);
-        console.log(author);
-        songAuthor.textContent = song.author;
+        songName.textContent = song.song.name;
+        songAuthor.textContent = song.authors;
         playButton.style.display = "none";
         pauseButton.style.display = "inline";
 
