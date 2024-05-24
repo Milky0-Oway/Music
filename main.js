@@ -22,6 +22,7 @@ let sondId = -1;
 let playlists = new Map();
 let keys = [];
 let favouriteSongs = [];
+let playlist = [];
 
 async function loadPlaylists() {
     await fetch('http://'+ ip +':5285/Library/GetPlaylistsByUser?id=' + id, {
@@ -160,6 +161,7 @@ async function loadSongs(playlistId, name) {
     playlistName.textContent = name;
 
     songNames = [];
+    playlist = [];
 
     await fetch('http://'+ ip +':5285/Library/GetSongsByPlaylist?id=' + playlistId, {
         method: 'GET'
@@ -173,6 +175,7 @@ async function loadSongs(playlistId, name) {
                 songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1, song.song.name, song.authors);
                 songButton.className = "song-button";
                 songNames.push(song.song.pathToSong);
+                playlist.push(song.song);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
             });
@@ -194,6 +197,7 @@ async function loadFavouriteSongs(){
     playlistName.textContent = "Любимое";
 
     songNames = [];
+    playlist = [];
 
     await fetch('http://'+ ip +':5285/Library/GetFavouriteSongs?id=' + id, {
         method: 'GET'
@@ -208,6 +212,7 @@ async function loadFavouriteSongs(){
                 songButton.className = "song-button";
                 songNames.push(song.song.pathToSong);
                 favouriteSongs.push(song.song);
+                playlist.push(song.song);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
             });
@@ -267,6 +272,15 @@ document.getElementById('uploadForm').addEventListener('submit', (event) => {
 
 async function playSong(path, id, name, author){
     sondId = id;
+    let song;
+    for(let i = 0; i < playlist.length; i++){
+        if(playlist[i].id === id){
+            song = playlist[i];
+            break;
+        }
+    }
+    const btn = document.querySelector(".add-to-playlist-button");
+    if(btn) btn.remove();
     try {
         const response = await fetch('http://'+ ip +':5285/Library/GetAudio?PathToSong=' + path);
         const blob = await response.blob();
@@ -275,10 +289,10 @@ async function playSong(path, id, name, author){
         const audioPlayer = document.getElementById('audioPlayer');
         audioPlayer.src = audioURL;
         audioPlayer.play();
-        songName.textContent = name;
+        songName.textContent = song.name;
         console.log(name);
         console.log(author);
-        songAuthor.textContent = author;
+        songAuthor.textContent = song.author;
         playButton.style.display = "none";
         pauseButton.style.display = "inline";
 
