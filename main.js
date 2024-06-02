@@ -15,6 +15,7 @@ const favouriteButton = document.getElementById("favouriteButton");
 const songName = document.getElementById("song-name");
 const songAuthor = document.getElementById("song-author");
 const uploadButton = document.getElementById("upload-music-button");
+const chartButton = document.getElementById("chart-button");
 const buttons = document.getElementById("audio-buttons");
 
 let songNames = [];
@@ -148,6 +149,7 @@ function cancelPlaylist(){
     playlists.style.display = "block";
     search.style.display = "none";
     uploadMusic.style.display = "none";
+    document.getElementById("chart").style.display = "none";
 }
 
 async function loadSongs(playlistId, name) {
@@ -227,6 +229,7 @@ function loadBase(){
     document.getElementById("playlists").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("upload-music").style.display = "none";
+    document.getElementById("chart").style.display = "none";
 }
 
 searchButton.addEventListener("click", () => {
@@ -234,6 +237,7 @@ searchButton.addEventListener("click", () => {
     document.getElementById("playlists").style.display = "none";
     document.getElementById("new-playlist").style.display = "none";
     document.getElementById("upload-music").style.display = "none";
+    document.getElementById("chart").style.display = "none";
 });
 
 uploadButton.addEventListener("click", () => {
@@ -241,6 +245,42 @@ uploadButton.addEventListener("click", () => {
     document.getElementById("playlists").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("new-playlist").style.display = "none";
+    document.getElementById("chart").style.display = "none";
+});
+
+chartButton.addEventListener("click", async () => {
+    document.getElementById("chart").style.display = "inline";
+    document.getElementById("playlists").style.display = "none";
+    document.getElementById("search").style.display = "none";
+    document.getElementById("new-playlist").style.display = "none";
+    document.getElementById("upload-music").style.display = "none";
+
+    let songList = document.getElementById("chart-list");
+    let songs = songList.querySelectorAll('li');
+    for(let i = 0; i < songs.length; i++){
+        songs[i].remove();
+    }
+
+    await fetch('http://'+ ip +':5285/Library/Chart', {
+        method: 'GET'
+    })
+        .then(response => response.json())
+        .then(data => {
+            for(let song in data.data) {
+                const listItem = document.createElement('li');
+                const songButton = document.createElement('button');
+                songButton.textContent = song.name;
+                console.log(song.name);
+                songButton.onclick = () => playSong(song.pathToSong, song.id-1);
+                songButton.className = "song-button";
+               // songNames.push(song.pathToSong);
+                listItem.appendChild(songButton);
+                songList.appendChild(listItem);
+            };
+        })
+        .catch(error => {
+            console.error('Ошибка при загрузке песен:', error);
+        });
 });
 
 document.getElementById('uploadForm').addEventListener('submit', (event) => {
@@ -271,6 +311,11 @@ document.getElementById('uploadForm').addEventListener('submit', (event) => {
 });
 
 async function playSong(path, id){
+    const selects = document.querySelectorAll('.select-playlist');
+    if(selects){
+        selects.forEach((el)=>el.remove());
+    }
+
     sondId = id;
     let song;
     for(let i = 0; i < playlist.length; i++){
@@ -395,22 +440,30 @@ function searchMusic() {
 }
 
 function addToPlaylist(songId, song) {
+    const selects = document.querySelectorAll('.select-playlist');
+    if(selects){
+        selects.forEach((el)=>el.remove());
+    }
+
     const select = document.createElement('select');
+    select.className = 'select-playlist';
     const item0 = document.createElement('option');
     item0.text = "Выберите плейлист";
+    item0.value = -1;
     select.appendChild(item0);
     for (let [key, value] of playlists) {
         const item = document.createElement('option');
         item.text = value;
+        item.value = key;
         select.appendChild(item);
     }
 
     select.addEventListener('change', function() {
-        const selectedOption = this.selectedIndex;
+        const selectedOptionValue = parseInt(this.value, 10);
+        if (selectedOptionValue === -1) return;
         hideDropdown();
         const formData = new FormData();
-        console.log(keys[selectedOption]);
-        formData.append('playlistId', (keys[selectedOption]+keys.length-1)%keys.length);
+        formData.append('playlistId', selectedOptionValue);
         formData.append('songId', songId);
         fetch('http://'+ ip +':5285/Library/AddSongToPlaylist', {
             method: 'PUT',
@@ -427,8 +480,6 @@ function addToPlaylist(songId, song) {
                 console.error('Ошибка:', error);
             });
     });
-
-
     song.appendChild(select);
 }
 
