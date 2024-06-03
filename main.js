@@ -24,6 +24,7 @@ let playlists = new Map();
 let keys = [];
 let favouriteSongs = [];
 let playlist = [];
+let playId = -1;
 
 async function loadPlaylists() {
     await fetch('http://'+ ip +':5285/Library/GetPlaylistsByUser?id=' + id, {
@@ -150,6 +151,7 @@ function cancelPlaylist(){
     search.style.display = "none";
     uploadMusic.style.display = "none";
     document.getElementById("chart").style.display = "none";
+    document.getElementById("songs").style.display = "inline";
 }
 
 async function loadSongs(playlistId, name) {
@@ -170,11 +172,11 @@ async function loadSongs(playlistId, name) {
     })
         .then(response => response.json())
         .then(data => {
-            data.forEach(song => {
+            data.forEach((song,index) => {
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
                 songButton.textContent = song.authors + ' - ' + song.song.name;
-                songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1);
+                songButton.onclick = () => playSong(song.song.pathToSong, index);
                 songButton.className = "song-button";
                 songNames.push(song.song.pathToSong);
                 playlist.push(song);
@@ -206,11 +208,11 @@ async function loadFavouriteSongs(){
     })
         .then(response => response.json())
         .then(data => {
-            data.forEach(song => {
+            data.forEach((song,index) => {
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
                 songButton.textContent = song.authors + ' - ' + song.song.name;
-                songButton.onclick = () => playSong(song.song.pathToSong, song.song.id-1);
+                songButton.onclick = () => playSong(song.song.pathToSong, index);
                 songButton.className = "song-button";
                 songNames.push(song.song.pathToSong);
                 favouriteSongs.push(song.song);
@@ -226,6 +228,7 @@ async function loadFavouriteSongs(){
 
 function loadBase(){
     document.getElementById("new-playlist").style.display = "inline";
+    document.getElementById("songs").style.display = "none";
     document.getElementById("playlists").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("upload-music").style.display = "none";
@@ -234,6 +237,7 @@ function loadBase(){
 
 searchButton.addEventListener("click", () => {
     document.getElementById("search").style.display = "inline";
+    document.getElementById("songs").style.display = "none";
     document.getElementById("playlists").style.display = "none";
     document.getElementById("new-playlist").style.display = "none";
     document.getElementById("upload-music").style.display = "none";
@@ -242,6 +246,7 @@ searchButton.addEventListener("click", () => {
 
 uploadButton.addEventListener("click", () => {
     document.getElementById("upload-music").style.display = "inline";
+    document.getElementById("songs").style.display = "none";
     document.getElementById("playlists").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("new-playlist").style.display = "none";
@@ -250,6 +255,7 @@ uploadButton.addEventListener("click", () => {
 
 chartButton.addEventListener("click", async () => {
     document.getElementById("chart").style.display = "inline";
+    document.getElementById("songs").style.display = "none";
     document.getElementById("playlists").style.display = "none";
     document.getElementById("search").style.display = "none";
     document.getElementById("new-playlist").style.display = "none";
@@ -261,22 +267,30 @@ chartButton.addEventListener("click", async () => {
         songs[i].remove();
     }
 
+    playlist = [];
+    songNames = [];
+
     await fetch('http://'+ ip +':5285/Library/Chart', {
         method: 'GET'
     })
         .then(response => response.json())
         .then(data => {
-            for(let song in data.data) {
+            let i = 1;
+            data.forEach( (song,index)=> {
+                console.log(song);
                 const listItem = document.createElement('li');
                 const songButton = document.createElement('button');
-                songButton.textContent = song.name;
-                console.log(song.name);
-                songButton.onclick = () => playSong(song.pathToSong, song.id-1);
+                songButton.textContent = String(i) + '. ' + song.authors + ' - ' + song.song.name;
+                i++;
+                //console.log(song.song.name);
+                songButton.onclick = () => playSong(song.song.pathToSong, index);
                 songButton.className = "song-button";
+                songNames.push(song.song.pathToSong);
+                playlist.push(song);
                // songNames.push(song.pathToSong);
                 listItem.appendChild(songButton);
                 songList.appendChild(listItem);
-            };
+            });
         })
         .catch(error => {
             console.error('Ошибка при загрузке песен:', error);
@@ -311,19 +325,16 @@ document.getElementById('uploadForm').addEventListener('submit', (event) => {
 });
 
 async function playSong(path, id){
+    console.log(path, id);
     const selects = document.querySelectorAll('.select-playlist');
     if(selects){
         selects.forEach((el)=>el.remove());
     }
 
-    sondId = id;
-    let song;
-    for(let i = 0; i < playlist.length; i++){
-        if(playlist[i].song.id === id+1){
-            song = playlist[i];
-            break;
-        }
-    }
+    let song = playlist[id];
+    console.log(id);
+    sondId = song.song.id;
+    playId = id;
     const btn = document.querySelector(".add-to-playlist-button");
     if(btn) btn.remove();
     try {
@@ -391,11 +402,11 @@ audioPlayer.addEventListener("timeupdate", function() {
 });
 
 playForwardButton.addEventListener("click", function(event){
-    playSong(songNames[(sondId + 1) % songNames.length], (sondId + 1) % songNames.length);
+    playSong(playlist[(playId + 1) % playlist.length].song.pathToSong, (playId + 1) % playlist.length);
 });
 
 playBackButton.addEventListener("click", function(event){
-    playSong(songNames[(sondId - 1 + songNames.length) % songNames.length], (sondId - 1 + songNames.length) % songNames.length);
+    playSong(playlist[(playId + playlist.length - 1) % playlist.length].song.pathToSong, (playId + playlist.length - 1) % playlist.length);
 });
 
 favouriteButton.addEventListener("click", function(event){
@@ -414,6 +425,9 @@ function searchMusic() {
 
     searchResults.innerHTML = "";
 
+    playlist = [];
+    songNames = [];
+
     fetch(`http://${ip}:5285/Library/FindSongByName?name=${encodeURIComponent(searchInput)}`, {
         method: 'GET'
     })
@@ -425,13 +439,15 @@ function searchMusic() {
             }
         })
         .then(data => {
-            data.data.forEach(song => {
+            data.forEach((song,index) => {
                 const resultItem = document.createElement('div');
                 resultItem.innerHTML = `
-                <p>${song.name}</p>
-                <button onclick="addToPlaylist(${song.id}, this.parentNode)">+</button>
+                <button class="song-button" onclick='playSong(${JSON.stringify(song.song.pathToSong)}, ${index})'>${song.song.name}</button>
+                <button onclick='addToPlaylist(${song.song.id}, this.parentNode)'>+</button>
             `;
                 searchResults.appendChild(resultItem);
+                songNames.push(song.song.pathToSong);
+                playlist.push(song);
             });
         })
         .catch(error => {
