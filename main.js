@@ -410,7 +410,7 @@ playBackButton.addEventListener("click", function(event){
 });
 
 favouriteButton.addEventListener("click", function(event){
-    const isFavourite = favouriteSongs.some(song => song.id === sondId + 1);
+    const isFavourite = favouriteSongs.some(song => song.id === sondId);
 
     if (isFavourite) {
         removeFromFavourite(sondId);
