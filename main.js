@@ -353,7 +353,7 @@ async function playSong(path, id){
         const addToPlaylistButton = document.createElement('button');
         addToPlaylistButton.textContent = "+";
         addToPlaylistButton.className = "add-to-playlist-button";
-        addToPlaylistButton.onclick = () => addToPlaylist(sondId+1, buttons);
+        addToPlaylistButton.onclick = () => addToPlaylist(sondId, buttons);
         buttons.appendChild(addToPlaylistButton);
 
         updateFavouriteButton(sondId);
@@ -363,7 +363,7 @@ async function playSong(path, id){
 }
 
 function updateFavouriteButton(songId){
-    const isFavourite = favouriteSongs.some(song => song.id === songId+1);
+    const isFavourite = favouriteSongs.some(song => song.id === songId);
     if (isFavourite) {
         favouriteButton.innerHTML = '<ion-icon name="heart"></ion-icon>'; // Залитое сердечко
     } else {
@@ -443,7 +443,7 @@ function searchMusic() {
                 const resultItem = document.createElement('div');
                 resultItem.innerHTML = `
                 <button class="song-button" onclick='playSong(${JSON.stringify(song.song.pathToSong)}, ${index})'>${song.song.name}</button>
-                <button onclick='addToPlaylist(${song.song.id+1}, this.parentNode)'>+</button>
+                <button onclick='addToPlaylist(${song.song.id}, this.parentNode)'>+</button>
             `;
                 searchResults.appendChild(resultItem);
                 songNames.push(song.song.pathToSong);
@@ -507,7 +507,7 @@ function hideDropdown() {
 function addToFavourite(songId) {
     const formData = new FormData();
     formData.append('userId', id);
-    formData.append('songId', songId + 1);
+    formData.append('songId', songId);
     fetch('http://' + ip + ':5285/Library/AddSongToFavouriteSongs', {
         method: 'PUT',
         body: formData
@@ -516,14 +516,14 @@ function addToFavourite(songId) {
         .catch(error => {
             console.error('Ошибка при добавлении музыки в любимое:', error);
         });
-    favouriteSongs.push({ id: songId + 1 });
+    favouriteSongs.push({ id: songId});
     updateFavouriteButton(songId);
 }
 
 function removeFromFavourite(songId){
     const formData = new FormData();
     formData.append('userId', id);
-    formData.append('songId', songId+1);
+    formData.append('songId', songId);
     fetch('http://'+ ip +':5285/Library/DeleteSongFromFavourite', {
         method: 'DELETE',
         body: formData
@@ -532,7 +532,7 @@ function removeFromFavourite(songId){
         .catch(error => {
             console.error('Ошибка при удалении музыки из любимого:', error);
         });
-    favouriteSongs = favouriteSongs.filter(song => song.id !== songId + 1);
+    favouriteSongs = favouriteSongs.filter(song => song.id !== songId);
     updateFavouriteButton(songId);
 }
 
