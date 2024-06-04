@@ -356,7 +356,7 @@ async function playSong(path, id){
         addToPlaylistButton.onclick = () => addToPlaylist(sondId+1, buttons);
         buttons.appendChild(addToPlaylistButton);
 
-        updateFavouriteButton(id);
+        updateFavouriteButton(sondId);
     } catch (error) {
         console.error('Ошибка при воспроизведении аудио:', error);
     }
@@ -443,7 +443,7 @@ function searchMusic() {
                 const resultItem = document.createElement('div');
                 resultItem.innerHTML = `
                 <button class="song-button" onclick='playSong(${JSON.stringify(song.song.pathToSong)}, ${index})'>${song.song.name}</button>
-                <button onclick='addToPlaylist(${song.song.id}, this.parentNode)'>+</button>
+                <button onclick='addToPlaylist(${song.song.id+1}, this.parentNode)'>+</button>
             `;
                 searchResults.appendChild(resultItem);
                 songNames.push(song.song.pathToSong);
